@@ -10,7 +10,7 @@ This is a Telegram bot built with Telethon that allows users to record live HLS 
 
 ## Requirements
 - Python 3.8+
-- FFmpeg installed and accessible via command line
+- [FFmpeg installed and accessible via command line](https://ffmpeg.org/download.html)
 - A Telegram bot token from [BotFather](https://t.me/BotFather)
 - A Telegram API ID and API Hash from [my.telegram.org](https://my.telegram.org)
 
