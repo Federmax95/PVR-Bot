@@ -2,9 +2,12 @@ import os
 import subprocess
 import asyncio
 from telethon import TelegramClient, events
+
+# Configure bot credentials
 API_ID = ""
 API_HASH = ""
 BOT_TOKEN = ""
+
 bot = TelegramClient('bot', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 OUTPUT_DIR = "recordings"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -12,22 +15,24 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 @bot.on(events.NewMessage(pattern="/start"))
 async def start(event):
-    await event.reply("Hi! Send me link of the live and the duration in seconds separated by a space.\nExample: `http://example.live/stream.m3u8 30`")
+    """Responds to the /start command"""
+    await event.reply("Hello! Send me the HLS live stream link and the duration (in seconds) separated by a space.\nExample: `http://yourstream.com/stream.m3u8 30`")
 
 
 @bot.on(events.NewMessage)
 async def record_hls(event):
+    """Handles messages to record the HLS live stream"""
     try:
         message = event.message.message.strip()
         if not message:
             return
         parts = message.split()
         if len(parts) != 2:
-            await event.reply("Format error. Use: `<URL> <duration in second>`")
+            await event.reply("Incorrect format. Use: `<URL> <duration in seconds>`")
             return
         url, duration = parts
         if not url.startswith("http") or not duration.isdigit():
-            await event.reply("URL not valid or duration not valid.")
+            await event.reply("Invalid URL or non-numeric duration.")
             return
         duration = int(duration)
         output_file = os.path.join(
@@ -61,14 +66,14 @@ async def record_hls(event):
         )
         await process.wait()
         if process.returncode == 0:
-            await event.reply("✅ Recording completed. Sending File...")
-            await bot.send_file(event.chat_id, output_file, caption="Ecco il tuo file registrato!")
+            await event.reply("✅ Recording complete. Sending the file...")
+            await bot.send_file(event.chat_id, output_file, caption="Here is your recorded file!")
         else:
             error_message = stderr.decode()
-            await event.reply(f"❌ Error during recording:\n```\n{error_message}\n```")
+            await event.reply(f"❌ Recording error:\n```{error_message}\n```")
         if os.path.exists(output_file):
             os.remove(output_file)
     except Exception as e:
         await event.reply(f"❌ Error: {str(e)}")
-print("Bot in execution")
+print("Bot started...")
 bot.run_until_disconnected()
