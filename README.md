@@ -24,7 +24,7 @@ This is a Telegram bot built with Telethon that allows users to record live HLS 
    ```sh
    pip install -r requirements.txt
    ```
-3. Create and configure your Telegram bot by setting up API credentials in `Bot_finale.py`:
+3. Create and configure your Telegram bot by setting up API credentials in `Bot.py`:
    ```python
    API_ID = "YOUR_API_ID"
    API_HASH = "YOUR_API_HASH"
