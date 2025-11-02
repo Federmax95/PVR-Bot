@@ -44,11 +44,6 @@ This is a Telegram bot built with Telethon that allows users to record live HLS 
    (where `30` is the duration in seconds)
 3. The bot will record the stream and send you the recorded file.
 
-## FFmpeg Command Details
-The bot executes the following FFmpeg command to record the stream:
-```sh
-ffmpeg -y -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i <URL> -t <DURATION> -bufsize 2M -vf "scale=640:-1" -c:v libx264 -preset slow -crf 28 -b:v 500k -c:a aac -b:a 128k -strict experimental -max_muxing_queue_size 1024 -f mp4 <OUTPUT_FILE>
-```
 
 ## Notes
 - The bot creates a `recordings` directory to store temporary files.
@@ -58,6 +53,4 @@ ffmpeg -y -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i <URL> -t 
 ## License
 This project is licensed under the MIT License.
 
-## Contributing
-Pull requests are welcome! If you have suggestions or find issues, feel free to open an issue or submit a PR.
 
